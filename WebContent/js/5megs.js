@@ -42,7 +42,7 @@ var _5megs={
 			}
 			var s=JSON.stringify(obj);
 			var hash=s.hashCode();
-			store(this.storage(),hash,s);
+			this.store(this.storage(),hash,s);
 			var arr=new Array();
 			arr.push(s);
 			s=JSON.stringify(arr);
@@ -125,7 +125,7 @@ var _5megs={
 			        var r=xhr.responseText;
 			        if (r.length>0){
 				        var hash=r.hashCode();
-						store(st,hash,r);			
+						this.store(st,hash,r);			
 						var up=document.getElementById("u_"+s);
 						up.style.display='none';
 						var dp=document.getElementById("d_"+s);
