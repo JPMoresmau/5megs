@@ -1,3 +1,5 @@
+<%@page import="java.net.URLEncoder"%>
+<%@page import="java.util.Locale"%>
 <%@page import="java.util.Collections"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Enumeration"%>
@@ -83,7 +85,15 @@ if (ps!=null){
 		for (Post p:lps){
 			ix++;
 			String k=p.getKey();
-			%><div id="a_<%=k %>"><%=ix%>.&nbsp;
+			String title=p.getPost().getString("h");
+			String link=p.getPost().optString("l");
+			if (link!=null && link.length()>0 && !link.toLowerCase(Locale.ENGLISH).startsWith("javascript")){
+				title="<a href='"+link+"' target='_new'>"+title+"</a>";
+			} else {
+				title="<a href='comments.jsp?k="+URLEncoder.encode(k,"UTF8")+"'>"+title+"</a>";
+			}
+			
+			%><div id="a_<%=k %>"><br/><%=ix%>.&nbsp;
 			<% 
 			  String uv="none";
 			  String dv="none";
@@ -93,10 +103,13 @@ if (ps!=null){
 				  dv="inline";
 			  }
 				  %>
-				  <a id="u_<%=k %>" href="javascript:_5megs.upvote('<%=k%>')" style="display:<%=uv%>;"/>Upvote</a>
-				  <a id="d_<%=k %>" href="javascript:_5megs.downvote('<%=k%>')" style="display:<%=dv%>;"/>Downvote</a><%
+				  <a id="u_<%=k %>" href="javascript:_5megs.upvote('<%=k%>')" style="display:<%=uv%>;text-decoration:none;" title="Upvote">&#8679;</a>
+				  <a id="d_<%=k %>" href="javascript:_5megs.downvote('<%=k%>')" style="display:<%=dv%>;text-decoration:none;" title="Downvote">&#8681;</a><%
 			%>
-			<span id="s_<%=k %>"><%=p.getScore() %></span>&nbsp;<%=p.getPost().get("h") %></div><%
+			<span id="s_<%=k %>"><%=p.getScore() %></span>&nbsp;<%=title %>
+			<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;By <%=p.getPost().getString("p") %>
+			&nbsp;<a href='comments.jsp?k=<%=URLEncoder.encode(k,"UTF8")%>'>Comments</a>
+			</div><%
 		}
 	}
 }

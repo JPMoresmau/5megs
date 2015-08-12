@@ -31,6 +31,10 @@ var _5megs={
 				return false;
 			}
 			var link=frm["link"].value;
+			if (link && link.toLowerCase().startsWith("javascript")){
+				alert("no javascript links, thanks!");
+				return false;
+			}
 			var text=frm["text"].value;
 			var obj={'p':pseudo,'h':title,'d':new Date().getTime()};
 			
