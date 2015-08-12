@@ -124,12 +124,13 @@ var _5megs={
 		upvote:function(s){
 			var xhr = this.createXHR();
 			var st=this.storage();
+			var me=this;
 			xhr.onreadystatechange = function(){
 			    if (xhr.readyState === 4) {
 			        var r=xhr.responseText;
 			        if (r.length>0){
 				        var hash=r.hashCode();
-						this.store(st,hash,r);			
+						me.store(st,hash,r);			
 						var up=document.getElementById("u_"+s);
 						up.style.display='none';
 						var dp=document.getElementById("d_"+s);
