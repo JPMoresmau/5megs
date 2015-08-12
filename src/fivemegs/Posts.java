@@ -26,6 +26,15 @@ public class Posts implements Serializable {
 		}
 		return null;
 	}
+	
+	public Post downvote(String k){
+		LinkedPost p=postByKey.get(k);
+		if (p!=null){
+			dec(p);
+			return p.post;
+		}
+		return null;
+	}
 
 	public void addPost(JSONObject obj){
 		String k=Post.getKey(obj);
@@ -51,7 +60,11 @@ public class Posts implements Serializable {
 				lp.next=p;
 				p.next=n;
 				p.previous=lp;
-				n.previous=p;
+				if (n!=null){
+					n.previous=p;
+				} else {
+					last=p;
+				}
 			}
 			
 			
@@ -75,11 +88,43 @@ public class Posts implements Serializable {
 			pp.previous=p;
 			p.next=pp;
 			pp.next=pn;
+			if (pn!=null){
+				pn.previous=pp;
+			}
 			if (p.next==first){
 				first=p;
 			}
+			if (pn==null){
+				last=pp;
+			}
 		}
 	}
+	
+	private void dec(LinkedPost p){
+		p.post.decScore();
+		while (p.next!=null && p.next.post.getScore()>=p.post.getScore()){
+			LinkedPost pn=p.next;
+			LinkedPost pp=p.previous;
+			LinkedPost pnn=pn.next;
+			if (pnn!=null){
+				pnn.previous=p;
+			}
+			p.next=pnn;
+			if (pp!=null){
+				pp.next=pn;
+			} else {
+				first=pn;
+			}
+			pn.previous=pp;
+			p.previous=pn;
+			pn.next=p;
+			
+			if (p.previous==last){
+				last=p;
+			}
+		}
+	}
+	
 	
 	public Post getByKey(String k){
 		LinkedPost lp=postByKey.get(k);

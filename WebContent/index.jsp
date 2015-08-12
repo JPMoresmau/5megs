@@ -24,20 +24,29 @@ if (s==null || s.getAttribute("upload")==null){
 	</script>
 	<%
 }
+boolean mine="mine".equals(request.getParameter("whose"));
+
 %>
 
 </head>
 <body>
 <div>
-<a href="submit.jsp">Submit new content!</a>
+<a href="submit.jsp">Submit new content!</a>&nbsp;|&nbsp;<%
+if (mine){
+	%><a href="index.jsp">View all content</a><%
+} else {
+	%><a href="index.jsp?whose=mine">View my content only</a><%
+}
+%>
 </div>
 
 <%
+
 Posts ps=(Posts)request.getServletContext().getAttribute("posts");
 if (ps!=null){
 	List<Post> lps=null;
 	int start=0;
-	if ("mine".equals(request.getParameter("whose"))){
+	if (mine){
 		if (s!=null){
 			Enumeration<String> keys=s.getAttributeNames();
 			lps=new ArrayList<Post>();
@@ -64,14 +73,28 @@ if (ps!=null){
 		
 	}
 	if (lps!=null){
+		if (mine && lps.size()>0){
+			%>
+			<div><a href="javascript:_5megs.clear()">Clear all</a> (downvote everything and removes it from local storage)</div>
+			<%
+		}
+		
 		int ix=start;
 		for (Post p:lps){
 			ix++;
 			%><div><%=ix%>.&nbsp;
 			<% String k=p.getKey();
+			  String uv="none";
+			  String dv="none";
 			  if (s==null || s.getAttribute(k)==null){
-				%><a id="u_<%=k %>" href="javascript:_5megs.upvote('<%=k%>')"/>Upvote</a><%
-			}%>
+				  uv="inline";
+			  } else if (s!=null && s.getAttribute(k)!=null){
+				  dv="inline";
+			  }
+				  %>
+				  <a id="u_<%=k %>" href="javascript:_5megs.upvote('<%=k%>')" style="display:<%=uv%>;"/>Upvote</a>
+				  <a id="d_<%=k %>" href="javascript:_5megs.downvote('<%=k%>')" style="display:<%=dv%>;"/>Downvote</a><%
+			%>
 			<span id="s_<%=k %>"><%=p.getScore() %></span>&nbsp;<%=p.getPost().get("h") %></div><%
 		}
 	}

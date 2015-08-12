@@ -52,6 +52,58 @@ public class PostsTest {
 		assertEquals(Arrays.asList(new Post(s1),new Post(s2)),ps.getPosts(0, 50));
 		assertEquals(2,ps.getPosts(0, 50).get(0).getScore());
 		assertEquals(1,ps.getPosts(0, 50).get(1).getScore());
+		ps.upvote(Post.getKey(s2));
+		assertEquals(Arrays.asList(new Post(s2),new Post(s1)),ps.getPosts(0, 50));
+		assertEquals(2,ps.getPosts(0, 50).get(0).getScore());
+		assertEquals(2,ps.getPosts(0, 50).get(1).getScore());
+		JSONObject s3=story3();
+		ps.addPost(s3);
+		assertEquals(Arrays.asList(new Post(s2),new Post(s1),new Post(s3)),ps.getPosts(0, 50));
+		ps.upvote(Post.getKey(s3));
+		assertEquals(Arrays.asList(new Post(s3),new Post(s2),new Post(s1)),ps.getPosts(0, 50));
+		ps.upvote(Post.getKey(s3));
+		assertEquals(Arrays.asList(new Post(s3),new Post(s2),new Post(s1)),ps.getPosts(0, 50));
+		
+		ps.upvote(Post.getKey(s1));
+		ps.upvote(Post.getKey(s2));
+		ps.upvote(Post.getKey(s3));
+		assertEquals(Arrays.asList(new Post(s3),new Post(s2),new Post(s1)),ps.getPosts(0, 50));
+	}
+	
+	@Test
+	public void testDownvote(){
+		Posts ps=new Posts();
+		JSONObject s1=story1();
+		ps.addPost(s1);
+		JSONObject s2=story2();
+		ps.addPost(s2);
+		ps.upvote(Post.getKey(s1));
+		assertEquals(Arrays.asList(new Post(s1),new Post(s2)),ps.getPosts(0, 50));
+		ps.downvote(Post.getKey(s1));
+		assertEquals(Arrays.asList(new Post(s2),new Post(s1)),ps.getPosts(0, 50));
+		assertEquals(1,ps.getPosts(0, 50).get(0).getScore());
+		assertEquals(1,ps.getPosts(0, 50).get(1).getScore());
+		ps.downvote(Post.getKey(s1));
+		assertEquals(Arrays.asList(new Post(s2),new Post(s1)),ps.getPosts(0, 50));
+		assertEquals(1,ps.getPosts(0, 50).get(0).getScore());
+		assertEquals(0,ps.getPosts(0, 50).get(1).getScore());
+		JSONObject s3=story3();
+		ps.addPost(s3);
+		ps.upvote(Post.getKey(s3));
+		ps.downvote(Post.getKey(s3));
+		assertEquals(Arrays.asList(new Post(s2),new Post(s3),new Post(s1)),ps.getPosts(0, 50));
+		ps.downvote(Post.getKey(s3));
+		assertEquals(Arrays.asList(new Post(s2),new Post(s1),new Post(s3)),ps.getPosts(0, 50));
+		ps.upvote(Post.getKey(s3));
+		ps.upvote(Post.getKey(s3));
+		assertEquals(Arrays.asList(new Post(s3),new Post(s2),new Post(s1)),ps.getPosts(0, 50));
+		
+		ps.downvote(Post.getKey(s1));
+		ps.downvote(Post.getKey(s2));
+		ps.downvote(Post.getKey(s3));
+		assertEquals(Arrays.asList(new Post(s3),new Post(s2),new Post(s1)),ps.getPosts(0, 50));
+		
+		
 	}
 	
 	private static JSONObject story1(){

@@ -85,6 +85,10 @@ public class Post implements Serializable{
 		score++;
 	}
 	
+	public void decScore(){
+		score--;
+	}
+	
 	public static class DateComparator implements Comparator<Post>{
 		@Override
 		public int compare(Post o1, Post o2) {
