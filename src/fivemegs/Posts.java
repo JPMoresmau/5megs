@@ -102,25 +102,40 @@ public class Posts implements Serializable {
 	
 	private void dec(LinkedPost p){
 		p.post.decScore();
-		while (p.next!=null && p.next.post.getScore()>=p.post.getScore()){
-			LinkedPost pn=p.next;
-			LinkedPost pp=p.previous;
-			LinkedPost pnn=pn.next;
-			if (pnn!=null){
-				pnn.previous=p;
+		if (p.post.getScore()<1){
+			if (first==p){
+				first=p.next;
 			}
-			p.next=pnn;
-			if (pp!=null){
-				pp.next=pn;
-			} else {
-				first=pn;
+			if (last==p){
+				last=p.previous;
 			}
-			pn.previous=pp;
-			p.previous=pn;
-			pn.next=p;
-			
-			if (p.previous==last){
-				last=p;
+			if (p.previous!=null){
+				p.previous.next=p.next;
+			}
+			if (p.next!=null){
+				p.next.previous=p.previous;
+			}
+		} else {
+			while (p.next!=null && p.next.post.getScore()>=p.post.getScore()){
+				LinkedPost pn=p.next;
+				LinkedPost pp=p.previous;
+				LinkedPost pnn=pn.next;
+				if (pnn!=null){
+					pnn.previous=p;
+				}
+				p.next=pnn;
+				if (pp!=null){
+					pp.next=pn;
+				} else {
+					first=pn;
+				}
+				pn.previous=pp;
+				p.previous=pn;
+				pn.next=p;
+				
+				if (p.previous==last){
+					last=p;
+				}
 			}
 		}
 	}

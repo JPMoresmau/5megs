@@ -151,15 +151,21 @@ var _5megs={
 			        var r=xhr.responseText;
 			        if (r.length>0){
 				        var hash=r.hashCode();
-						st.removeItem(hash);			
-						var up=document.getElementById("u_"+s);
-						up.style.display='inline';
-						var dp=document.getElementById("d_"+s);
-						dp.style.display='none';
+						st.removeItem(hash);		
 						var sc=document.getElementById("s_"+s);
 						var txt=sc.textContent;
-						var i=parseInt(txt);
-						sc.textContent=""+(i-1);
+						var i=parseInt(txt)-1;
+						if (i>0){
+							var up=document.getElementById("u_"+s);
+							up.style.display='inline';
+							var dp=document.getElementById("d_"+s);
+							dp.style.display='none';
+							
+							sc.textContent=""+i;
+				        } else {
+				        	var a=document.getElementById("a_"+s);
+							a.style.display='none';
+				        }
 			        }
 
 			    }

@@ -82,8 +82,9 @@ if (ps!=null){
 		int ix=start;
 		for (Post p:lps){
 			ix++;
-			%><div><%=ix%>.&nbsp;
-			<% String k=p.getKey();
+			String k=p.getKey();
+			%><div id="a_<%=k %>"><%=ix%>.&nbsp;
+			<% 
 			  String uv="none";
 			  String dv="none";
 			  if (s==null || s.getAttribute(k)==null){
