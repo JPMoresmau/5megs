@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class UpvoteServlet
+ * Upvote a single post or comment
  */
 @WebServlet("/upvote")
 public class UpvoteServlet extends HttpServlet {
@@ -30,7 +30,8 @@ public class UpvoteServlet extends HttpServlet {
 		String key=request.getParameter("k");
 		HttpSession sss=request.getSession();
 		if (sss==null || sss.getAttribute(key)==null){
-			Posts ps=(Posts)request.getServletContext().getAttribute("posts");
+			String ctxKey=Post.getCtxKey(key);
+			Posts ps=(Posts)request.getServletContext().getAttribute(ctxKey);
 			response.setContentType("application/json");
 			if (ps!=null){
 				Post p=ps.upvote(key);

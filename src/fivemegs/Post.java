@@ -5,6 +5,11 @@ import java.util.Comparator;
 
 import org.json.JSONObject;
 
+/**
+ * one post (story or comment)
+ * the data is in JSON, the score is kept separately
+ *
+ */
 public class Post implements Serializable{
 	/**
 	 * 
@@ -26,12 +31,45 @@ public class Post implements Serializable{
 		return getKey(post);
 	}
 	
-		
 	public static String getKey(JSONObject post){
 		if (post.has("h") && post.has("p") && post.has("d")){
-			return post.getString("h")+post.getString("p")+post.getLong("d");
+			return Utils.sanitize("p_"+post.getString("h")+post.getString("p")+post.getLong("d"));
+		} else if (post.has("m") && post.has("p") && post.has("d")){
+			String m=post.getString("m");
+			return Utils.sanitize("c_"+m.length()+"_"+m+post.getString("p")+post.getLong("d"));
 		}
 		return null;
+	}
+	
+	public static boolean isPost(JSONObject post){
+		return !post.has("m");
+	}
+	
+	public static boolean isComment(JSONObject post){
+		return post.has("m");
+	}
+	
+	public static String getMother(String key){
+		if (key!=null && key.startsWith("c_")){
+			int ix=key.indexOf('_',2);
+			if (ix>=2){
+				try {
+					int l=Integer.parseInt(key.substring(2,ix));
+					return key.substring(ix+1,ix+1+l);
+				} catch (NumberFormatException nfe){
+					nfe.printStackTrace();
+				}
+			}
+		}
+		return null;
+	}
+	
+	public static String getCtxKey(String key){
+		String m=getMother(key);
+		if (m==null){
+			m="posts";
+		}
+		return m;
 	}
 	
 	@Override
@@ -55,7 +93,7 @@ public class Post implements Serializable{
 				return false;
 		} else if (!getKey().equals(other.getKey()))
 			return false;
-		if (!post.getString("h").equals(other.post.getString("h"))){
+		if (!post.optString("h").equals(other.post.optString("h"))){
 			return false;
 		}
 		if (!post.getString("p").equals(other.post.getString("p"))){

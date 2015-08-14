@@ -29,7 +29,8 @@ public class DownvoteServlet extends HttpServlet {
 		String key=request.getParameter("k");
 		HttpSession sss=request.getSession();
 		if (sss!=null && sss.getAttribute(key)!=null){
-			Posts ps=(Posts)request.getServletContext().getAttribute("posts");
+			String ctxKey=Post.getCtxKey(key);
+			Posts ps=(Posts)request.getServletContext().getAttribute(ctxKey);
 			response.setContentType("application/json");
 			if (ps!=null){
 				Post p=ps.downvote(key);

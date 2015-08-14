@@ -7,6 +7,9 @@ import java.util.Arrays;
 import org.json.JSONObject;
 import org.junit.Test;
 
+/**
+ * Tests Posts
+ */
 public class PostsTest {
 
 	@Test
@@ -105,7 +108,7 @@ public class PostsTest {
 		
 	}
 	
-	private static JSONObject story1(){
+	public static JSONObject story1(){
 		JSONObject s1=new JSONObject();
 		s1.put("h", "title1");
 		s1.put("p", "pseudo1");
@@ -113,7 +116,7 @@ public class PostsTest {
 		return s1;
 	}
 	
-	private static JSONObject story2(){
+	public static JSONObject story2(){
 		JSONObject s1=new JSONObject();
 		s1.put("h", "title2");
 		s1.put("p", "pseudo2");
@@ -121,7 +124,7 @@ public class PostsTest {
 		return s1;
 	}
 	
-	private static JSONObject story3(){
+	public static JSONObject story3(){
 		JSONObject s1=new JSONObject();
 		s1.put("h", "title3");
 		s1.put("p", "pseudo3");

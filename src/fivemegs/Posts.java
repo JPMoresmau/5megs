@@ -8,6 +8,11 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
+/**
+ * Posts in popularity order
+ * This is basically a linked list where a post can be created and up/downvoted given its id
+ *
+ */
 public class Posts implements Serializable {
 	/**
 	 * 
@@ -165,7 +170,21 @@ public class Posts implements Serializable {
 		}
 		return posts;
 	}
-	
+
+	public List<Post> getPosts(){
+		List<Post> posts=new LinkedList<>();
+		LinkedPost lp=first;
+		
+		while (lp!=null){
+			posts.add(lp.post);
+			lp=lp.next;
+		}
+		return posts;
+	}
+
+	/**
+	 * The linked list element
+	 */
 	private static class LinkedPost {
 		Post post;
 		LinkedPost next;

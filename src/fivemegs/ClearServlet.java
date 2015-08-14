@@ -33,23 +33,25 @@ public class ClearServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession sss=request.getSession();
 		if (sss!=null){
-			Posts ps=(Posts)request.getServletContext().getAttribute("posts");
 			response.setContentType("application/json");
-			if (ps!=null){
-				Enumeration<String> e=sss.getAttributeNames();
-				Set<String> ns=new HashSet<>();
-				while (e.hasMoreElements()){
-					String key=e.nextElement();
+			Enumeration<String> e=sss.getAttributeNames();
+			Set<String> ns=new HashSet<>();
+			while (e.hasMoreElements()){
+				String key=e.nextElement();
+				String ctxKey=Post.getCtxKey(key);
+				Posts ps=(Posts)request.getServletContext().getAttribute(ctxKey);
+				if (ps!=null){
 					Post p=ps.downvote(key);
 					if (p!=null){
 						ns.add(key);
 					}
 				}
-				for (String n:ns){
-					sss.removeAttribute(n);
-				}
-				
 			}
+			for (String n:ns){
+				sss.removeAttribute(n);
+			}
+				
+			
 		}
 	}
 

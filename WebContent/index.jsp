@@ -1,3 +1,4 @@
+<%@page import="fivemegs.Utils"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="java.util.Locale"%>
 <%@page import="java.util.Collections"%>
@@ -85,7 +86,7 @@ if (ps!=null){
 		for (Post p:lps){
 			ix++;
 			String k=p.getKey();
-			String title=p.getPost().getString("h");
+			String title=Utils.escapeHTML(p.getPost().getString("h"));
 			String link=p.getPost().optString("l");
 			if (link!=null && link.length()>0 && !link.toLowerCase(Locale.ENGLISH).startsWith("javascript")){
 				title="<a href='"+link+"' target='_new'>"+title+"</a>";
@@ -107,7 +108,7 @@ if (ps!=null){
 				  <a id="d_<%=k %>" href="javascript:_5megs.downvote('<%=k%>')" style="display:<%=dv%>;text-decoration:none;" title="Downvote">&#8681;</a><%
 			%>
 			<span id="s_<%=k %>"><%=p.getScore() %></span>&nbsp;<%=title %>
-			<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;By <%=p.getPost().getString("p") %>
+			<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;By <%=Utils.escapeHTML(p.getPost().getString("p")) %>
 			&nbsp;<a href='comments.jsp?k=<%=URLEncoder.encode(k,"UTF8")%>'>Comments</a>
 			</div><%
 		}
