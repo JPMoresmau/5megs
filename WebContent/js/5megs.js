@@ -120,106 +120,53 @@ var _5megs={
 
 			}
 		},
-	    createXHR:function(){
-		    var xhr;
-		    if (window.ActiveXObject) {
-		        try {
-		            xhr = new ActiveXObject("Microsoft.XMLHTTP");
-		        } catch(e) {
-		            alert(e.message);
-		            xhr = null;
-		        }
-		    } else {
-		        xhr = new XMLHttpRequest();
-		    }
-		    return xhr;
-		},
 		uploadData:function(s,page){
-			var xhr = this.createXHR();
-			//if (reload){
-				xhr.onreadystatechange = function(){
-				    if (xhr.readyState === 4) {
-				        location.href=page;
-				    }
-				}
-			//}
-			xhr.open('POST', 'upload', true);
-			xhr.setRequestHeader("Content-type", "application/json");
-			xhr.send(s);
+			$.post("upload",s,function(){
+				location.href=page;
+			});
 		},
 		upvote:function(s){
-			var xhr = this.createXHR();
 			var st=this.storage();
 			var me=this;
-			xhr.onreadystatechange = function(){
-			    if (xhr.readyState === 4) {
-			        var r=xhr.responseText;
-			        if (r.length>0){
-				        var hash=r.hashCode();
-						me.store(st,hash,r);			
-						var up=document.getElementById("u_"+s);
-						up.style.display='none';
-						var dp=document.getElementById("d_"+s);
-						dp.style.display='inline';
-						var sc=document.getElementById("s_"+s);
-						var txt=sc.textContent;
-						var i=parseInt(txt);
-						sc.textContent=""+(i+1);
-			        }
-
-			    }
-			}
-			xhr.open('POST', 'upvote', true);
-			xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			xhr.send("k="+encodeURIComponent(s));
+			$.post("upvote",{"k":s},function(r){
+				if (r && r.length>0){
+			        var hash=r.hashCode();
+					me.store(st,hash,r);	
+					$("#u_"+s).hide();
+					$("#d_"+s).show();
+					var txt=$("#s_"+s).text();
+					var i=parseInt(txt)+1;
+					$("#s_"+s).text(i);
+				}
+			},'text');
+			
 			
 		},
 		downvote:function(s){
-			var xhr = this.createXHR();
 			var st=this.storage();
-			xhr.onreadystatechange = function(){
-			    if (xhr.readyState === 4) {
-			        var r=xhr.responseText;
-			        if (r.length>0){
-				        var hash=r.hashCode();
-						st.removeItem(hash);		
-						var sc=document.getElementById("s_"+s);
-						var txt=sc.textContent;
-						var i=parseInt(txt)-1;
-						if (i>0){
-							var up=document.getElementById("u_"+s);
-							up.style.display='inline';
-							var dp=document.getElementById("d_"+s);
-							dp.style.display='none';
-							
-							sc.textContent=""+i;
-				        } else {
-				        	var a=document.getElementById("a_"+s);
-							a.style.display='none';
-				        }
+			$.post("downvote",{"k":s},function(r){
+				if (r && r.length>0){
+			        var hash=r.hashCode();
+					st.removeItem(hash);		
+					var txt=$("#s_"+s).text();
+					var i=parseInt(txt)-1;
+					if (i>0){
+						$("#u_"+s).show();
+						$("#d_"+s).hide();
+						$("#s_"+s).text(i);
+			        } else {
+			        	$("#a_"+s).hide();
 			        }
-
-			    }
-			}
-			xhr.open('POST', 'downvote', true);
-			xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			xhr.send("k="+encodeURIComponent(s));
+		        }
+			},'text');
 			
 		},
 		clear:function(s){
-			var xhr = this.createXHR();
 			var st=this.storage();
-			xhr.onreadystatechange = function(){
-			    if (xhr.readyState === 4) {
-			        var r=xhr.responseText;
-			        st.clear();
-			        location.href="index.jsp";
-			    }
-			}
-			xhr.open('POST', 'clear', true);
-			xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			xhr.send("");
-			
+			$.post("clear",function(){
+				st.clear();
+		        location.href="index.jsp";
+			},'text');
 		}
 		
 };
