@@ -1,3 +1,4 @@
+<%@page import="fivemegs.Constants"%>
 <%@page import="fivemegs.Utils"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="java.util.Locale"%>
@@ -20,15 +21,15 @@
 
 <%
 HttpSession s=request.getSession();
-if (s==null || s.getAttribute("upload")==null){
-	request.getSession(true).setAttribute("upload",System.currentTimeMillis());
+if (s==null || s.getAttribute(Constants.ATTRIBUTE_UPLOAD)==null){
+	request.getSession(true).setAttribute(Constants.ATTRIBUTE_UPLOAD,System.currentTimeMillis());
 	%>
 	<script type="text/javascript">
 	_5megs.upload();
 	</script>
 	<%
 }
-boolean mine="mine".equals(request.getParameter("whose"));
+boolean mine="mine".equals(request.getParameter(Constants.PARAM_WHOSE));
 
 %>
 
@@ -39,17 +40,19 @@ boolean mine="mine".equals(request.getParameter("whose"));
 if (mine){
 	%><a href="index.jsp">View all content</a><%
 } else {
-	%><a href="index.jsp?whose=mine">View my content only</a><%
+	%><a href="index.jsp?<%=Constants.PARAM_WHOSE %>=mine">View my content only</a><%
 }
 %>
 </div>
 
 <%
 
-Posts ps=(Posts)request.getServletContext().getAttribute("posts");
+Posts ps=(Posts)request.getServletContext().getAttribute(Constants.ATTRIBUTE_POSTS);
 if (ps!=null){
 	List<Post> lps=null;
 	int start=0;
+	int next=-1;
+	int previous=-1;
 	if (mine){
 		if (s!=null){
 			Enumeration<String> keys=s.getAttributeNames();
@@ -65,21 +68,44 @@ if (ps!=null){
 			
 		}
 	} else {
-		String sts=request.getParameter("start");
+		String sts=request.getParameter(Constants.PARAM_START);
 		if (sts!=null && sts.length()>0){
 			try {
-				start=Integer.parseInt(sts)-1; // zero based
+				start=Math.max(0,Integer.parseInt(sts)-1); // zero based
 			} catch (NumberFormatException nfe){
 				// ignore
 			}
 		}
-		lps=ps.getPosts(start,50);
-		
+		int pageSize=3;
+		lps=ps.getPosts(start,pageSize);
+		if (start>1){
+			previous=Math.max(0, start-pageSize)+1;
+		}
+		if (ps.size()>start+pageSize){
+			next=start+pageSize+1;
+		}
 	}
 	if (lps!=null){
 		if (mine && lps.size()>0){
 			%>
 			<div><a href="javascript:_5megs.clear()">Clear all</a> (downvote everything and removes it from local storage)</div>
+			<%
+		}
+		
+		if (previous>-1 || next>-1){
+			%>
+			<div>
+			<% if (previous>-1){ %>
+			<a href="index.jsp?<%=Constants.PARAM_START %>=<%=previous %>">Previous</a>
+			<%
+				if (next>-1){
+					%>&nbsp;|&nbsp;<%
+				}
+			}  %>
+			<% if (next>-1){ %>
+			<a href="index.jsp?<%=Constants.PARAM_START %>=<%=next %>">Next</a>
+			<% } %>
+			</div>
 			<%
 		}
 		
@@ -112,6 +138,23 @@ if (ps!=null){
 			<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;By <%=Utils.escapeHTML(p.getPost().getString("p")) %>
 			&nbsp;<a href='comments.jsp?k=<%=URLEncoder.encode(k,"UTF8")%>'>Comments</a>
 			</div><%
+		}
+		
+		if (previous>-1 || next>-1){
+			%>
+			<div>
+			<% if (previous>-1){ %>
+			<a href="index.jsp?<%=Constants.PARAM_START %>=<%=previous %>">Previous</a>
+			<%
+				if (next>-1){
+					%>&nbsp;|&nbsp;<%
+				}
+			}  %>
+			<% if (next>-1){ %>
+			<a href="index.jsp?<%=Constants.PARAM_START %>=<%=next %>">Next</a>
+			<% } %>
+			</div>
+			<%
 		}
 	}
 }

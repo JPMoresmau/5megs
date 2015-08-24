@@ -67,7 +67,7 @@ if (p!=null){
 	<%
 	}
 	%>
-	<div>
+	<div id="topComment">
 <form onSubmit="return _5megs.commentForm(this,'comments.jsp?k=<%=URLEncoder.encode(k,"UTF8")%>');">
 <input type="hidden" name="mother" value="<%=k %>"/>
 Pseudo name:<br/><input name="pseudo"/><br/>
@@ -75,6 +75,9 @@ Comment:<br/><textarea name="text" rows="5" cols="50"></textarea>
 <input type="submit" value="Send!"/>
 </form>
 
+</div>
+
+<div id="hiddenCommentForm" style="display:none">
 </div>
 
 <div>

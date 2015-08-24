@@ -27,12 +27,12 @@ public class UpvoteServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String key=request.getParameter("k");
+		String key=request.getParameter(Constants.PARAM_KEY);
 		HttpSession sss=request.getSession();
 		if (sss==null || sss.getAttribute(key)==null){
 			String ctxKey=Post.getCtxKey(key);
 			Posts ps=(Posts)request.getServletContext().getAttribute(ctxKey);
-			response.setContentType("application/json");
+			response.setContentType(Constants.CONTENT_JSON);
 			if (ps!=null){
 				Post p=ps.upvote(key);
 				if (p!=null){

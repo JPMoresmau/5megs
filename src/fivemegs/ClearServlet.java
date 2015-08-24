@@ -33,7 +33,7 @@ public class ClearServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession sss=request.getSession();
 		if (sss!=null){
-			response.setContentType("application/json");
+			response.setContentType(Constants.CONTENT_JSON);
 			Enumeration<String> e=sss.getAttributeNames();
 			Set<String> ns=new HashSet<>();
 			while (e.hasMoreElements()){

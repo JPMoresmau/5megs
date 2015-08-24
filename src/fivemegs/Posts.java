@@ -181,6 +181,10 @@ public class Posts implements Serializable {
 		}
 		return posts;
 	}
+	
+	public int size(){
+		return postByKey.size();
+	}
 
 	/**
 	 * The linked list element
