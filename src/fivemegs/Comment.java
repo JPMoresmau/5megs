@@ -34,11 +34,11 @@ public class Comment {
 			  }
 			  out.print("<a id=\"u_"+kc+"\" href=\"javascript:_5megs.upvote('"+kc+"')\" style=\"display:"+uvc+";text-decoration:none;\" title=\"Upvote\">&#8679;</a>");
 			  out.print("<a id=\"d_"+kc+"\" href=\"javascript:_5megs.downvote('"+kc+"')\" style=\"display:"+dvc+";text-decoration:none;\" title=\"Downvote\">&#8681;</a>");
-			  out.print("<span id=\"s_"+kc+"\">"+pc.getScore() +"</span>&nbsp;By "+pseudoc);
+			  out.print("<span id=\"s_"+kc+"\"><strong>"+pc.getScore() +"</strong></span>&nbsp;"+pseudoc+"");
 			  out.print("<br/>");
 			  out.print(textc);
 			  out.print("<br/>");
-			  out.print("<a id=\"r_"+kc +"\" href=\"javascript:reply('"+kc+"')\">Reply</a>");
+			  out.print("<a id=\"r_"+kc +"\" href=\"javascript:reply('"+kc+"')\" class=\"btn btn-default btn-sm\">Reply</a>");
 			  out.print("</div>");
 			  out.print("<div>");
 			  writeComment(request,out,response,kc,pos+20);

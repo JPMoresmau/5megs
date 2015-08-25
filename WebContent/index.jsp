@@ -13,10 +13,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script type="text/javascript" src="js/util.js"></script>
-<script type="text/javascript" src="js/5megs.js"></script>
+<jsp:include page="head.jsp"></jsp:include>
 <title>5 megs</title>
 
 <%
@@ -35,6 +32,7 @@ boolean mine="mine".equals(request.getParameter(Constants.PARAM_WHOSE));
 
 </head>
 <body>
+<div class="container-fluid">
 <div>
 <a href="submit.jsp">Submit new content!</a>&nbsp;|&nbsp;<%
 if (mine){
@@ -88,7 +86,7 @@ if (ps!=null){
 	if (lps!=null){
 		if (mine && lps.size()>0){
 			%>
-			<div><a href="javascript:_5megs.clear()">Clear all</a> (downvote everything and removes it from local storage)</div>
+			<div><a href="javascript:_5megs.clear()" class="btn btn-danger btn-sm" role="button">Clear all</a> (downvote everything and removes it from local storage)</div>
 			<%
 		}
 		
@@ -121,7 +119,10 @@ if (ps!=null){
 				title="<a href='comments.jsp?k="+URLEncoder.encode(k,"UTF8")+"'>"+title+"</a>";
 			}
 			
-			%><div id="a_<%=k %>"><br/><%=ix%>.&nbsp;
+			%>
+			<div id="a_<%=k %>" class="row">
+				<div class="col-sm-12">
+				<h4><%=ix%>.&nbsp;
 			<% 
 			  String uv="none";
 			  String dv="none";
@@ -134,9 +135,14 @@ if (ps!=null){
 				  <a id="u_<%=k %>" href="javascript:_5megs.upvote('<%=k%>')" style="display:<%=uv%>;text-decoration:none;" title="Upvote">&#8679;</a>
 				  <a id="d_<%=k %>" href="javascript:_5megs.downvote('<%=k%>')" style="display:<%=dv%>;text-decoration:none;" title="Downvote">&#8681;</a><%
 			%>
-			<span id="s_<%=k %>"><%=p.getScore() %></span>&nbsp;<%=title %>
-			<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;By <%=Utils.escapeHTML(p.getPost().getString("p")) %>
-			&nbsp;<a href='comments.jsp?k=<%=URLEncoder.encode(k,"UTF8")%>'>Comments</a>
+					<span id="s_<%=k %>"><%=p.getScore() %></span>&nbsp;<%=title %></h4>
+					<div class="row">
+     		 			<div class="col-sm-2 text-right">
+			By <strong><%=Utils.escapeHTML(p.getPost().getString("p")) %></strong></div><div class="col-sm-1">
+						<a href='comments.jsp?k=<%=URLEncoder.encode(k,"UTF8")%>'>Comments</a>
+						</div>
+				   </div>
+				</div>
 			</div><%
 		}
 		
@@ -161,6 +167,6 @@ if (ps!=null){
 
 %>
 
-
+</div>
 </body>
 </html>

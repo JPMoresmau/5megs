@@ -2,27 +2,26 @@
     pageEncoding="UTF-8"%>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script type="text/javascript" src="js/util.js"></script>
-<script type="text/javascript" src="js/5megs.js"></script>
+<jsp:include page="head.jsp"></jsp:include>
 <title>5 megs: Submit content</title>
 </head>
 <body>
+<div class="container-fluid">
 <div>
 <a href="index.jsp">View all content</a>&nbsp;|&nbsp;<a href="index.jsp?whose=mine">View my content only</a>
 </div>
 <div>
 <form onSubmit="return _5megs.storeForm(this);">
-Pseudo name:<br/><input name="pseudo"/><br/>
-Title:<br/><input name="title"/><br/>
-Link (optional):<br/><input name="link"/><br/>
-Text (optional):<br/><textarea name="text" rows="5" cols="50"></textarea>
-<input type="submit" value="Send!"/>
+<div class="form-group"><label for="pseudo">Pseudo name</label><input name="pseudo" id="pseudo" class="form-control"/></div>
+<div class="form-group"><label for="title">Title</label><input name="title" id="title" class="form-control"/></div>
+<div class="form-group"><label for="link">Link (optional)</label><input name="link" type="url" id="link" class="form-control"/></div>
+<div class="form-group"><label for="text">Text (optional)</label><textarea name="text" id="text" class="form-control" rows="5" cols="50"></textarea>
+</div>
+<input type="submit" value="Send!" class="btn btn-primary"/>
 </form>
 
 </div>
 
-
+</div>
 </body>
 </html>
