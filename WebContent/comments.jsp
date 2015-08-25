@@ -1,3 +1,4 @@
+<%@page import="fivemegs.Comment"%>
 <%@page import="fivemegs.Utils"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="java.util.List"%>
@@ -27,6 +28,7 @@ if (ps!=null){
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript" src="js/util.js"></script>
 <script type="text/javascript" src="js/5megs.js"></script>
+
 </head>
 <body>
 <div>
@@ -68,58 +70,61 @@ if (p!=null){
 	}
 	%>
 	<div id="topComment">
+	</div>
+
+<script type="text/javascript">
+
+function showCommentForm(where,k,withCancel){
+	var h=$("#hiddenCommentForm").html();
+	h=h.replace('_k_',k);
+	$(where).append(h);
+	if (withCancel){
+		var frm=$(where+ " > form");
+		var cancel=$(where+ " > form > input").filter(":button");
+		cancel.show();
+		cancel.click(function(){
+			$("#r_"+k).show();
+			frm.remove();
+		});
+	}
+}
+
+function reply(kc){
+	$("#r_"+kc).hide();
+	showCommentForm("#a_"+kc, kc, true);
+}
+
+$().ready(function(){
+	showCommentForm("#topComment",'<%=k%>',false);
+});
+
+</script>
+
+<div id="hiddenCommentForm" style="display:none">
 <form onSubmit="return _5megs.commentForm(this,'comments.jsp?k=<%=URLEncoder.encode(k,"UTF8")%>');">
-<input type="hidden" name="mother" value="<%=k %>"/>
+<input type="hidden" name="mother" value="_k_"/>
 Pseudo name:<br/><input name="pseudo"/><br/>
 Comment:<br/><textarea name="text" rows="5" cols="50"></textarea>
+<br>
+<input name="cancel" type="button" value="Cancel" style="display:none"/>
 <input type="submit" value="Send!"/>
 </form>
 
 </div>
 
-<div id="hiddenCommentForm" style="display:none">
-</div>
 
+<%
+}
+%>
 <div>
 <%
-ps=(Posts)request.getServletContext().getAttribute(k);
-if (ps!=null){
-	List<Post> lps=ps.getPosts();
-	for (Post pc:lps){
-		String kc=pc.getKey();
-		String textc=Utils.escapeHTML(pc.getPost().getString("t"));
-		String pseudoc=Utils.escapeHTML(pc.getPost().getString("p"));
-		%><div id="a_<%=kc %>"><br/>
-		<% 
-		  String uvc="none";
-		  String dvc="none";
-		  if (s==null || s.getAttribute(kc)==null){
-			  uvc="inline";
-		  } else if (s!=null && s.getAttribute(kc)!=null){
-			  dvc="inline";
-		  }
-			  %>
-			  <a id="u_<%=kc %>" href="javascript:_5megs.upvote('<%=kc%>')" style="display:<%=uvc%>;text-decoration:none;" title="Upvote">&#8679;</a>
-			  <a id="d_<%=kc %>" href="javascript:_5megs.downvote('<%=kc%>')" style="display:<%=dvc%>;text-decoration:none;" title="Downvote">&#8681;</a><%
-		%>
-		<span id="s_<%=kc %>"><%=pc.getScore() %></span>&nbsp;By <%=pseudoc %>
-		<br/>
-		<%= textc %>
-		</div><%
-	}
+
+if (!Comment.writeComment(request,out,response,k,0)){
+	response.getWriter().print(title);
 }
+
 %>
 </div>
-	
-	<%
-} else {
-	%>
-	<div>
-<%=title %>
-</div>
-	<% 
-}
-%>
 
 </body>
 </html>
