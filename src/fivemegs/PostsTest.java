@@ -15,6 +15,7 @@ public class PostsTest {
 
 	@Test
 	public void testAddPost() {
+		System.out.println(System.currentTimeMillis());
 		Posts ps=new Posts();
 		JSONObject s1=story1();
 		ps.addPost(s1);

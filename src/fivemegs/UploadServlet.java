@@ -43,6 +43,7 @@ public class UploadServlet extends HttpServlet {
 				boolean write=false;
 				if (arr.length()==1){
 					long d=obj.optLong("d", 0);
+					// assign the date on the server
 					if (d==0){
 						obj.put("d", System.currentTimeMillis());
 						write=true;
@@ -56,7 +57,7 @@ public class UploadServlet extends HttpServlet {
 						String ctxKey=Post.getCtxKey(k);
 						Posts ps=(Posts)request.getServletContext().getAttribute(ctxKey);
 						if (ps==null){
-							ps=new Posts();
+							ps=Post.isComment(obj)?new Comments():new Posts();
 						}
 						ps.addPost(obj);
 						request.getServletContext().setAttribute(ctxKey, ps);

@@ -49,7 +49,7 @@ public class Posts implements Serializable {
 			p.post=new Post(obj);
 			LinkedPost lp=last;
 			long md=obj.getLong("d");
-			while (lp!=null && (lp.post.getScore()<p.post.getScore() || (lp.post.getScore()==p.post.getScore() && lp.post.getPost().getLong("d")<md))){
+			while (lp!=null && (getComparisonValue(lp.post)<getComparisonValue(p.post) || (getComparisonValue(lp.post)==getComparisonValue(p.post) && lp.post.getPost().getLong("d")<md))){
 				lp=lp.previous;
 			}
 			if (lp==null){
@@ -83,7 +83,7 @@ public class Posts implements Serializable {
 	
 	private void inc(LinkedPost p){
 		p.post.incScore();
-		while (p.previous!=null && p.previous.post.getScore()<=p.post.getScore()){
+		while (p.previous!=null && getComparisonValue(p.previous.post)<=getComparisonValue(p.post)){
 			LinkedPost pn=p.next;
 			LinkedPost pp=p.previous;
 			LinkedPost ppp=pp.previous;
@@ -122,7 +122,7 @@ public class Posts implements Serializable {
 				p.next.previous=p.previous;
 			}
 		} else {
-			while (p.next!=null && p.next.post.getScore()>=p.post.getScore()){
+			while (p.next!=null && getComparisonValue(p.next.post)>=getComparisonValue(p.post)){
 				LinkedPost pn=p.next;
 				LinkedPost pp=p.previous;
 				LinkedPost pnn=pn.next;
@@ -187,6 +187,16 @@ public class Posts implements Serializable {
 		return postByKey.size();
 	}
 
+	/**
+	 * get the value to use to sort posts
+	 * uses the heat by default
+	 * @param p
+	 * @return
+	 */
+	protected double getComparisonValue(Post p){
+		return p.getHeat();
+	}
+	
 	/**
 	 * The linked list element
 	 */

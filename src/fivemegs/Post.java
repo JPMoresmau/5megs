@@ -15,14 +15,23 @@ public class Post implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -5297914789254645561L;
+	/**
+	 * the actual object
+	 */
 	private JSONObject post;
+	/**
+	 * number of clients that have a copy of the post (upvoted)
+	 */
 	private int score=1;
-	
-	
+	/**
+	 * heat, calculated from time + score
+	 */
+	private double heat=0;
 	
 	public Post(JSONObject post) {
 		super();
 		this.post = post;
+		calculateHeat();
 	}
 
 
@@ -107,7 +116,7 @@ public class Post implements Serializable{
 	
 	@Override
 	public String toString() {
-		return "Post [post=" + post + ", score=" + score + "]";
+		return "Post [post=" + post + ", score=" + score + ", heat=" + heat + "]";
 	}
 
 
@@ -121,10 +130,25 @@ public class Post implements Serializable{
 	
 	public void incScore(){
 		score++;
+		calculateHeat();
 	}
 	
 	public void decScore(){
 		score--;
+		calculateHeat();
+	}
+	
+	public double getHeat() {
+		return heat;
+	}
+	
+	/**
+	 * http://amix.dk/blog/post/19588
+	 */
+	private void calculateHeat(){
+		long seconds=post.getLong("d")/1000 - 1439392126;
+		double order=Math.log10(score);
+		heat=order + seconds / 45000;
 	}
 	
 	public static class DateComparator implements Comparator<Post>{
