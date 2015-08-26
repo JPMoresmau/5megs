@@ -41,6 +41,7 @@ if (p!=null){
 	if (link!=null && link.length()>0 && !link.toLowerCase(Locale.ENGLISH).startsWith("javascript")){
 		title="<a href='"+link+"' target='_new'>"+title+"</a>";
 	} 		
+	String time=Utils.getTimeAgo(p.getPost().getLong("d"));
 	%><div id="a_<%=k %>"><h3>
 	<% 
 	  String uv="none";
@@ -55,7 +56,7 @@ if (p!=null){
 		  <a id="d_<%=k %>" href="javascript:_5megs.downvote('<%=k%>')" style="display:<%=dv%>;text-decoration:none;" title="Downvote">&#8681;</a><%
 	%>
 	<span id="s_<%=k %>"><%=p.getScore() %></span>&nbsp;<%=title %>
-	</h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;By <strong><%=pseudo %></strong>
+	</h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;By <strong><%=pseudo %></strong>&nbsp;<%=time %>
 	</div>
 	<%
 	String txt=p.getPost().optString("t");

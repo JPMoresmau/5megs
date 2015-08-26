@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.Arrays;
 
 import org.json.JSONObject;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -41,6 +42,16 @@ public class PostsTest {
 		assertEquals(1,ps.getPosts(0, 50).get(2).getScore());
 	}
 
+	@Test
+	public void testAddPostTime() {
+		Posts ps=new Posts();
+		JSONObject s1=story1();
+		JSONObject s2=story2();
+		ps.addPost(s2);
+		ps.addPost(s1);
+		assertEquals(Arrays.asList(new Post(s2),new Post(s1)),ps.getPosts(0, 50));
+	}
+	
 	@Test
 	public void testUpvote(){
 		Posts ps=new Posts();
@@ -113,7 +124,16 @@ public class PostsTest {
 		s1.put("h", "title1");
 		s1.put("p", "pseudo1");
 		s1.put("d", System.currentTimeMillis());
+		pause();
 		return s1;
+	}
+	
+	private static void pause(){
+		try {
+			Thread.sleep(10);
+		} catch (InterruptedException ie){
+			Assert.fail(ie.getLocalizedMessage());
+		}
 	}
 	
 	public static JSONObject story2(){
@@ -121,6 +141,7 @@ public class PostsTest {
 		s1.put("h", "title2");
 		s1.put("p", "pseudo2");
 		s1.put("d", System.currentTimeMillis());
+		pause();
 		return s1;
 	}
 	
@@ -129,6 +150,7 @@ public class PostsTest {
 		s1.put("h", "title3");
 		s1.put("p", "pseudo3");
 		s1.put("d", System.currentTimeMillis());
+		pause();
 		return s1;
 	}
 }

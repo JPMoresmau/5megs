@@ -36,7 +36,7 @@ var _5megs={
 				return false;
 			}
 			var text=frm["text"].value;
-			var obj={'p':pseudo,'h':title,'d':new Date().getTime()};
+			var obj={'p':pseudo,'h':title};
 			
 			if (link){
 				obj.l=link;
@@ -45,8 +45,6 @@ var _5megs={
 				obj.t=text;
 			}
 			var s=JSON.stringify(obj);
-			var hash=s.hashCode();
-			this.store(this.storage(),hash,s);
 			var arr=new Array();
 			arr.push(s);
 			s=JSON.stringify(arr);
@@ -69,10 +67,8 @@ var _5megs={
 				return false;
 			}
 			var mother=frm["mother"].value;
-			var obj={'p':pseudo,'m':mother,'d':new Date().getTime(),'t':text};
+			var obj={'p':pseudo,'m':mother,'t':text};
 			var s=JSON.stringify(obj);
-			var hash=s.hashCode();
-			this.store(this.storage(),hash,s);
 			var arr=new Array();
 			arr.push(s);
 			s=JSON.stringify(arr);
@@ -121,8 +117,13 @@ var _5megs={
 			}
 		},
 		uploadData:function(s,page){
-			$.post("upload",s,function(){
+			var me=this;
+			$.post("upload",s,function(r){
 				location.href=page;
+				if (r && r.length>0){
+					var hash=r.hashCode();
+					me.store(me.storage(),hash,r);
+				}
 			});
 		},
 		upvote:function(s){

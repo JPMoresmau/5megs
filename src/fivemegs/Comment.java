@@ -25,6 +25,7 @@ public class Comment {
 				String pseudoc=Utils.escapeHTML(pc.getPost().getString("p"));
 				out.print("<div id='a_"+kc+"' style='padding-left:"+pos+"px'><br/>");
 			
+				String time=Utils.getTimeAgo(pc.getPost().getLong("d"));
 			  String uvc="none";
 			  String dvc="none";
 			  if (s==null || s.getAttribute(kc)==null){
@@ -34,7 +35,7 @@ public class Comment {
 			  }
 			  out.print("<a id=\"u_"+kc+"\" href=\"javascript:_5megs.upvote('"+kc+"')\" style=\"display:"+uvc+";text-decoration:none;\" title=\"Upvote\">&#8679;</a>");
 			  out.print("<a id=\"d_"+kc+"\" href=\"javascript:_5megs.downvote('"+kc+"')\" style=\"display:"+dvc+";text-decoration:none;\" title=\"Downvote\">&#8681;</a>");
-			  out.print("<span id=\"s_"+kc+"\"><strong>"+pc.getScore() +"</strong></span>&nbsp;"+pseudoc+"");
+			  out.print("<span id=\"s_"+kc+"\"><strong>"+pc.getScore() +"</strong></span>&nbsp;"+pseudoc+"&nbsp;"+time);
 			  out.print("<br/>");
 			  out.print(textc);
 			  out.print("<br/>");

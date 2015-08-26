@@ -1,5 +1,12 @@
 package fivemegs;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 /**
  * utility methods
  *
@@ -49,4 +56,42 @@ public class Utils {
 	    return out.toString();
 	}
 	
+	private static List<TimeUnit> tus=Arrays.asList(TimeUnit.DAYS,TimeUnit.HOURS,TimeUnit.MINUTES);
+	
+	private static Map<TimeUnit,String> pluralNames=new HashMap<>();
+	private static Map<TimeUnit,String> singularNames=new HashMap<>();
+	
+	static {
+		for (TimeUnit tu:tus){
+			String s=tu.toString().toLowerCase(Locale.ENGLISH);
+			pluralNames.put(tu, s);
+			singularNames.put(tu, s.substring(0, s.length()-1));
+		}
+	}
+	
+	private static String getTimeAgo(long duration,TimeUnit tu){
+		String s=duration>=2?pluralNames.get(tu):singularNames.get(tu);
+		return duration+" "+s+" ago";
+	}
+	
+	public static String getTimeAgo(long time){
+		long duration=System.currentTimeMillis()-time;
+		if (duration<=0){
+			return "right now";
+		}
+		for (TimeUnit tu:tus){
+			long conv=tu.convert(duration, TimeUnit.MILLISECONDS);
+			if (conv>0){
+				return getTimeAgo(conv,tu);
+			}
+		}
+		return "right now";
+	}
+	
+	public static String capitalize(String s){
+		if (s==null || s.length()==0){
+			return s;
+		}
+		return s.substring(0,1).toUpperCase(Locale.ENGLISH)+s.substring(1).toLowerCase(Locale.ENGLISH);
+	}
 }

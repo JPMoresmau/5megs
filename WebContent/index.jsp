@@ -118,7 +118,7 @@ if (ps!=null){
 			} else {
 				title="<a href='comments.jsp?k="+URLEncoder.encode(k,"UTF8")+"'>"+title+"</a>";
 			}
-			
+			String time=Utils.getTimeAgo(p.getPost().getLong("d"));
 			%>
 			<div id="a_<%=k %>" class="row">
 				<div class="col-sm-12">
@@ -138,7 +138,7 @@ if (ps!=null){
 					<span id="s_<%=k %>"><%=p.getScore() %></span>&nbsp;<%=title %></h4>
 					<div class="row">
      		 			<div class="col-sm-2 text-right">
-			By <strong><%=Utils.escapeHTML(p.getPost().getString("p")) %></strong></div><div class="col-sm-1">
+			By <strong><%=Utils.escapeHTML(p.getPost().getString("p")) %></strong>&nbsp;<%=time %></div><div class="col-sm-1">
 						<a href='comments.jsp?k=<%=URLEncoder.encode(k,"UTF8")%>'>Comments</a>
 						</div>
 				   </div>

@@ -40,6 +40,14 @@ public class UploadServlet extends HttpServlet {
 			String s=arr.optString(a);
 			if (s!=null && s.length()>0){
 				JSONObject obj=new JSONObject(s);
+				boolean write=false;
+				if (arr.length()==1){
+					long d=obj.optLong("d", 0);
+					if (d==0){
+						obj.put("d", System.currentTimeMillis());
+						write=true;
+					}
+				}
 				String k=Post.getKey(obj);
 				if (k!=null){
 					HttpSession sss=request.getSession(true);
@@ -52,6 +60,10 @@ public class UploadServlet extends HttpServlet {
 						}
 						ps.addPost(obj);
 						request.getServletContext().setAttribute(ctxKey, ps);
+					}
+					if (write){
+						response.getWriter().print(obj.toString());
+						response.getWriter().flush();
 					}
 				}
 			}

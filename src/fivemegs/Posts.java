@@ -48,7 +48,8 @@ public class Posts implements Serializable {
 			p=new LinkedPost();
 			p.post=new Post(obj);
 			LinkedPost lp=last;
-			while (lp!=null && lp.post.getScore()<=p.post.getScore()){
+			long md=obj.getLong("d");
+			while (lp!=null && (lp.post.getScore()<p.post.getScore() || (lp.post.getScore()==p.post.getScore() && lp.post.getPost().getLong("d")<md))){
 				lp=lp.previous;
 			}
 			if (lp==null){
