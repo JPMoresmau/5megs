@@ -20,16 +20,7 @@ if (ps!=null){
 		title=Utils.escapeHTML(p.getPost().getString("h"));
 	}
 }
-String mypseudo="";
-HttpSession s=request.getSession(false);
-if (s!=null){
-	mypseudo=(String)s.getAttribute(Constants.ATTRIBUTE_PSEUDO);
-	if (mypseudo==null){
-		mypseudo="";
-	} else {
-		mypseudo=Utils.escapeHTML(mypseudo);
-	}
-}
+String mypseudo=Utils.getCurrentPseudo(request);
 
 %>
 <html>
@@ -43,10 +34,11 @@ if (s!=null){
 <div>
 <a href="submit.jsp">Submit new content!</a>&nbsp;|&nbsp;<a href="index.jsp">View all content</a>
 </div>
-
+<div class="bg-danger">Submitting and upvoting content means storing it on your machine. Only submit and upvote if you're OK with that!</div>
+<div>
 <%
 if (p!=null){
-	s=request.getSession();
+	HttpSession s=request.getSession();
 	String link=p.getPost().optString("l");
 	String pseudo=Utils.escapeHTML(p.getPost().getString("p"));
 	if (link!=null && link.length()>0 && !link.toLowerCase(Locale.ENGLISH).startsWith("javascript")){
@@ -112,6 +104,7 @@ $().ready(function(){
 </script>
 
 <div id="hiddenCommentForm" style="display:none">
+<div>
 <form onSubmit="return _5megs.commentForm(this,'comments.jsp?k=<%=URLEncoder.encode(k,"UTF8")%>');">
 <h4 class="text-info">Leave a comment!</h4>
 <input type="hidden" name="mother" value="_k_"/>
@@ -122,11 +115,12 @@ $().ready(function(){
 </form>
 
 </div>
-
+</div>
 
 <%
 }
 %>
+</div>
 <div>
 <%
 

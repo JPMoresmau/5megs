@@ -1,5 +1,4 @@
 <%@page import="fivemegs.Utils"%>
-<%@page import="fivemegs.Constants"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <html>
@@ -7,16 +6,7 @@
 <jsp:include page="head.jsp"></jsp:include>
 <title>5 Megs: Submit content</title>
 <%
-String mypseudo="";
-HttpSession s=request.getSession(false);
-if (s!=null){
-	mypseudo=(String)s.getAttribute(Constants.ATTRIBUTE_PSEUDO);
-	if (mypseudo==null){
-		mypseudo="";
-	} else {
-		mypseudo=Utils.escapeHTML(mypseudo);
-	}
-}
+String mypseudo=Utils.getCurrentPseudo(request);
 %>
 </head>
 <body>
@@ -24,6 +14,7 @@ if (s!=null){
 <div>
 <a href="index.jsp">View all content</a>&nbsp;|&nbsp;<a href="index.jsp?whose=mine">View my content only</a>
 </div>
+<div class="bg-danger">Submitting and upvoting content means storing it on your machine. Only submit and upvote if you're OK with that!</div>
 <div>
 <form onSubmit="return _5megs.storeForm(this);">
 <div class="form-group"><label for="pseudo">Pseudo name</label><input name="pseudo" id="pseudo" class="form-control" value="<%=mypseudo%>"/></div>

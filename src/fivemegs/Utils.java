@@ -7,6 +7,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 /**
  * utility methods
  *
@@ -93,5 +96,24 @@ public class Utils {
 			return s;
 		}
 		return s.substring(0,1).toUpperCase(Locale.ENGLISH)+s.substring(1).toLowerCase(Locale.ENGLISH);
+	}
+	
+	/**
+	 * as a convenience, get the pseudo used during this session
+	 * @param request
+	 * @return
+	 */
+	public static String getCurrentPseudo(HttpServletRequest request){
+		String mypseudo="";
+		HttpSession s=request.getSession(false);
+		if (s!=null){
+			mypseudo=(String)s.getAttribute(Constants.ATTRIBUTE_PSEUDO);
+			if (mypseudo==null){
+				mypseudo="";
+			} else {
+				mypseudo=Utils.escapeHTML(mypseudo);
+			}
+		}
+		return mypseudo;
 	}
 }
