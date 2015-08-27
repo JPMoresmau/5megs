@@ -34,7 +34,9 @@ String mypseudo=Utils.getCurrentPseudo(request);
 <div>
 <a href="submit.jsp">Submit new content!</a>&nbsp;|&nbsp;<a href="index.jsp">View all content</a>
 </div>
-<div class="bg-danger">Submitting and upvoting content means storing it on your machine. Only submit and upvote if you're OK with that!</div>
+<%
+Utils.writeStorageWarning(request, out);
+%>
 <div>
 <%
 if (p!=null){

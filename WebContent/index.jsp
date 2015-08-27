@@ -42,9 +42,9 @@ if (mine){
 }
 %>
 </div>
-<div class="bg-danger">Submitting and upvoting content means storing it on your machine. Only submit and upvote if you're OK with that!</div>
 
 <%
+Utils.writeStorageWarning(request, out);
 
 Posts ps=(Posts)request.getServletContext().getAttribute(Constants.ATTRIBUTE_POSTS);
 if (ps!=null){

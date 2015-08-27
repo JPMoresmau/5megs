@@ -14,7 +14,9 @@ String mypseudo=Utils.getCurrentPseudo(request);
 <div>
 <a href="index.jsp">View all content</a>&nbsp;|&nbsp;<a href="index.jsp?whose=mine">View my content only</a>
 </div>
-<div class="bg-danger">Submitting and upvoting content means storing it on your machine. Only submit and upvote if you're OK with that!</div>
+<%
+Utils.writeStorageWarning(request, out);
+%>
 <div>
 <form onSubmit="return _5megs.storeForm(this);">
 <div class="form-group"><label for="pseudo">Pseudo name</label><input name="pseudo" id="pseudo" class="form-control" value="<%=mypseudo%>"/></div>

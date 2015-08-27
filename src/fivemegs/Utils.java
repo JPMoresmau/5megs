@@ -1,5 +1,6 @@
 package fivemegs;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.servlet.jsp.JspWriter;
 
 /**
  * utility methods
@@ -115,5 +117,12 @@ public class Utils {
 			}
 		}
 		return mypseudo;
+	}
+	
+	public static void writeStorageWarning(HttpServletRequest request,JspWriter out) throws IOException{
+		HttpSession s=request.getSession(false);
+		if (s==null || !Boolean.TRUE.equals(s.getAttribute(Constants.ATTRIBUTE_ACCEPTED))){
+			out.print("<div class='bg-danger row' id='storage_warning'><div class='col-sm-11'>Submitting and upvoting content means storing it on your machine. Only submit and upvote if you're OK with that!</div><div><a class='btn btn-xs btn-danger' href='javascript:_5megs.accept()' role='button'>Close</a></div></div>");
+		}
 	}
 }

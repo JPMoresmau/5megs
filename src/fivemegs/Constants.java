@@ -12,6 +12,7 @@ public class Constants {
 	public static final String ATTRIBUTE_UPLOAD="upload";
 	public static final String ATTRIBUTE_POSTS="posts";
 	public static final String ATTRIBUTE_PSEUDO="pseudo";	
+	public static final String ATTRIBUTE_ACCEPTED="accepted";	
 	
 	public static final String CONTENT_JSON="application/json";
 }

@@ -168,6 +168,10 @@ var _5megs={
 				st.clear();
 		        location.href="index.jsp";
 			},'text');
+		},
+		accept:function(){
+			$.post("accept");
+			$("#storage_warning").hide();
 		}
 		
 };
