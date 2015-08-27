@@ -9,6 +9,9 @@
 <body>
 <div class="container-fluid">
 <div>
+<a href="submit.jsp">Submit new content!</a>&nbsp;|&nbsp;<a href="index.jsp">View all content</a>
+</div>
+<div>
 <h3>What is 5 Megs?</h3>
 5 Megs is a discussion site like many others in the Internet (OK, it's a very basic Reddit clone). <strong>However</strong>, there's a difference: the data is stored on your computer.
 <h3>Stored where?</h3>
