@@ -1,3 +1,4 @@
+<%@page import="fivemegs.Constants"%>
 <%@page import="fivemegs.Comment"%>
 <%@page import="fivemegs.Utils"%>
 <%@page import="java.net.URLEncoder"%>
@@ -19,12 +20,22 @@ if (ps!=null){
 		title=Utils.escapeHTML(p.getPost().getString("h"));
 	}
 }
+String mypseudo="";
+HttpSession s=request.getSession(false);
+if (s!=null){
+	mypseudo=(String)s.getAttribute(Constants.ATTRIBUTE_PSEUDO);
+	if (mypseudo==null){
+		mypseudo="";
+	} else {
+		mypseudo=Utils.escapeHTML(mypseudo);
+	}
+}
 
 %>
 <html>
 <head>
 <jsp:include page="head.jsp"></jsp:include>
-<title>5megs: <%=title %></title>
+<title>5 Megs: <%=title %></title>
 
 </head>
 <body>
@@ -35,7 +46,7 @@ if (ps!=null){
 
 <%
 if (p!=null){
-	HttpSession s=request.getSession();
+	s=request.getSession();
 	String link=p.getPost().optString("l");
 	String pseudo=Utils.escapeHTML(p.getPost().getString("p"));
 	if (link!=null && link.length()>0 && !link.toLowerCase(Locale.ENGLISH).startsWith("javascript")){
@@ -104,7 +115,7 @@ $().ready(function(){
 <form onSubmit="return _5megs.commentForm(this,'comments.jsp?k=<%=URLEncoder.encode(k,"UTF8")%>');">
 <h4 class="text-info">Leave a comment!</h4>
 <input type="hidden" name="mother" value="_k_"/>
-<div class="form-group"><label for="pseudo">Pseudo name</label><br/><input name="pseudo" id="pseudo" class="form-control"/></div>
+<div class="form-group"><label for="pseudo">Pseudo name</label><br/><input name="pseudo" id="pseudo" class="form-control" value="<%=mypseudo%>"/></div>
 <div class="form-group"><label for="text">Comment</label><textarea name="text" id="text" rows="5" cols="50" class="form-control"></textarea></div>
 <input name="cancel" type="button" value="Cancel" style="display:none" class="btn btn-default"/>
 <input type="submit" value="Send!" class="btn btn-primary"/>
@@ -127,6 +138,7 @@ if (p==null){
 
 %>
 </div>
+<jsp:include page="foot.jsp"></jsp:include>
 </div>
 </body>
 </html>

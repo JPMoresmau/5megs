@@ -14,7 +14,7 @@
 <html>
 <head>
 <jsp:include page="head.jsp"></jsp:include>
-<title>5 megs</title>
+<title>5 Megs</title>
 
 <%
 HttpSession s=request.getSession();
@@ -166,7 +166,7 @@ if (ps!=null){
 }
 
 %>
-
+<jsp:include page="foot.jsp"></jsp:include>
 </div>
 </body>
 </html>

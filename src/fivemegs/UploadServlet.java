@@ -53,6 +53,7 @@ public class UploadServlet extends HttpServlet {
 				if (k!=null){
 					HttpSession sss=request.getSession(true);
 					if(sss.getAttribute(k)==null){
+						sss.setAttribute(Constants.ATTRIBUTE_PSEUDO, obj.getString("p"));
 						sss.setAttribute(k, obj);
 						String ctxKey=Post.getCtxKey(k);
 						Posts ps=(Posts)request.getServletContext().getAttribute(ctxKey);
