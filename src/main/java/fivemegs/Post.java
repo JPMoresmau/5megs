@@ -76,7 +76,7 @@ public class Post implements Serializable{
 	public static String getCtxKey(String key){
 		String m=getMother(key);
 		if (m==null){
-			m="posts";
+			m=Constants.ATTRIBUTE_POSTS;
 		}
 		return m;
 	}

@@ -121,6 +121,7 @@ public class Posts implements Serializable {
 			if (p.next!=null){
 				p.next.previous=p.previous;
 			}
+			postByKey.remove(Post.getKey(p.post.getPost()));
 		} else {
 			while (p.next!=null && getComparisonValue(p.next.post)>=getComparisonValue(p.post)){
 				LinkedPost pn=p.next;
