@@ -19,8 +19,8 @@ Utils.writeStorageWarning(request, out);
 %>
 <div>
 <form onSubmit="return _5megs.storeForm(this);">
-<div class="form-group"><label for="pseudo">Pseudo name</label><input name="pseudo" id="pseudo" class="form-control" value="<%=mypseudo%>"/></div>
-<div class="form-group"><label for="title">Title</label><input name="title" id="title" class="form-control"/></div>
+<div class="form-group"><label for="pseudo">Pseudo name</label><input name="pseudo" id="pseudo" class="form-control" value="<%=mypseudo%>" required="required"/></div>
+<div class="form-group"><label for="title">Title</label><input name="title" id="title" class="form-control" required="required"/></div>
 <div class="form-group"><label for="link">Link (optional)</label><input name="link" type="url" id="link" class="form-control"/></div>
 <div class="form-group"><label for="text">Text (optional)</label><textarea name="text" id="text" class="form-control" rows="5" cols="50"></textarea>
 </div>

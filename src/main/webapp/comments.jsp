@@ -106,17 +106,16 @@ $().ready(function(){
 </script>
 
 <div id="hiddenCommentForm" style="display:none">
-<div>
+
 <form onSubmit="return _5megs.commentForm(this,'comments.jsp?k=<%=URLEncoder.encode(k,"UTF8")%>');">
 <h4 class="text-info">Leave a comment!</h4>
 <input type="hidden" name="mother" value="_k_"/>
-<div class="form-group"><label for="pseudo">Pseudo name</label><br/><input name="pseudo" id="pseudo" class="form-control" value="<%=mypseudo%>"/></div>
-<div class="form-group"><label for="text">Comment</label><textarea name="text" id="text" rows="5" cols="50" class="form-control"></textarea></div>
+<div class="form-group"><label for="pseudo">Pseudo name</label><br/><input name="pseudo" id="pseudo" class="form-control" value="<%=mypseudo%>" required="required"/></div>
+<div class="form-group"><label for="text">Comment</label><textarea name="text" id="text" rows="5" cols="50" class="form-control" required="required"></textarea></div>
 <input name="cancel" type="button" value="Cancel" style="display:none" class="btn btn-default"/>
 <input type="submit" value="Send!" class="btn btn-primary"/>
 </form>
 
-</div>
 </div>
 
 <%

@@ -136,13 +136,11 @@ if (ps!=null){
 				  <a id="u_<%=k %>" href="javascript:_5megs.upvote('<%=k%>')" style="display:<%=uv%>;text-decoration:none;" title="Upvote">&#8679;</a>
 				  <a id="d_<%=k %>" href="javascript:_5megs.downvote('<%=k%>')" style="display:<%=dv%>;text-decoration:none;" title="Downvote">&#8681;</a><%
 			%>
-					<span id="s_<%=k %>"><%=p.getScore() %></span>&nbsp;<%=title %></h4>
-					<div class="row">
-     		 			<div class="col-sm-2 text-right">
-			By <strong><%=Utils.escapeHTML(p.getPost().getString("p")) %></strong>&nbsp;<%=time %></div><div class="col-sm-1">
+					<span id="s_<%=k %>"><%=p.getScore() %></span>&nbsp;<%=title %>
+					<small>&nbsp;|&nbsp;
+			By <strong><%=Utils.escapeHTML(p.getPost().getString("p")) %></strong>&nbsp;<%=time %>&nbsp;|&nbsp;
 						<a href='comments.jsp?k=<%=URLEncoder.encode(k,"UTF8")%>'>Comments</a>
-						</div>
-				   </div>
+				   </small></h4>
 				</div>
 			</div><%
 		}
